@@ -4,3 +4,5 @@ server <- function(input, output){
     ggplot()+geom_histogram(aes(x=rn), bins=50)
   })
 }
+
+shinyApp(ui, server)
