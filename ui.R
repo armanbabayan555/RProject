@@ -1,10 +1,8 @@
-library(shiny)
-
 ui <- fluidPage(
   ###################################################################
   ######## File Upload and returning the table to display it ########
   ###################################################################
-
+  
   titlePanel("Uploading Files"),
   sidebarLayout(
     sidebarPanel(
@@ -14,7 +12,33 @@ ui <- fluidPage(
                            "text/comma-separated-values,text/plain",
                            ".csv",
                            ".tsv")),
-      tags$hr()
+      tags$hr(),
+      checkboxInput("header", "Header", TRUE),
+      
+      # Input: Select separator ----
+      radioButtons("sep", "Separator",
+                   choices = c(Comma = ",",
+                               Semicolon = ";",
+                               Tab = "\t"),
+                   selected = ","),
+      
+      # Input: Select quotes ----
+      radioButtons("quote", "Quote",
+                   choices = c(None = "",
+                               "Double Quote" = '"',
+                               "Single Quote" = "'"),
+                   selected = '"'),
+      
+      # Horizontal line ----
+      tags$hr(),
+      
+      # Input: Select number of rows to display ----
+      radioButtons("disp", "Display",
+                   choices = c(Head = "head",
+                               All = "all"),
+                   selected = "head")
+      
+
     ),
     mainPanel(
       tabsetPanel(
@@ -23,11 +47,11 @@ ui <- fluidPage(
       )
     )
   ),
-
+  
   ###################################################################
   ############## First plot's section, 1 variable case ##############
   ###################################################################
-
+  
   # Needs to be changed
   sidebarLayout(
     sidebarPanel(
@@ -42,6 +66,4 @@ ui <- fluidPage(
   )
 )
 
-
-# Create Shiny app ----
-shinyApp(ui, server)
+shinyApp(ui, server) 
