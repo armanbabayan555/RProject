@@ -6,7 +6,6 @@ server <- function(input, output) {
   ######## File Upload and returning the table to display it ########
   ###################################################################
 
-  i <- reactive({ sliderInput$rows })
   output$contents <- DT::renderDataTable({
     req(input$file1)
     return(getTable(input$file1))
