@@ -1,5 +1,3 @@
-library(shiny)
-
 ui <- fluidPage(
   ###################################################################
   ######## File Upload and returning the table to display it ########
@@ -14,6 +12,24 @@ ui <- fluidPage(
                            "text/comma-separated-values,text/plain",
                            ".csv",
                            ".tsv")),
+      tags$hr(),
+      checkboxInput("header", "Header", TRUE),
+
+      # Input: Select separator ----
+      radioButtons("sep", "Separator",
+                   choices = c(Comma = ",",
+                               Semicolon = ";",
+                               Tab = "\t"),
+                   selected = ","),
+
+      # Input: Select quotes ----
+      radioButtons("quote", "Quote",
+                   choices = c(None = "",
+                               "Double Quote" = '"',
+                               "Single Quote" = "'"),
+                   selected = '"'),
+
+      # Horizontal line ----
       tags$hr()
     ),
     mainPanel(
@@ -42,6 +58,4 @@ ui <- fluidPage(
   )
 )
 
-
-# Create Shiny app ----
-shinyApp(ui, server)
+shinyApp(ui, server) 
