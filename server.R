@@ -1,35 +1,33 @@
 library(DT)
 
-# Define server logic to read selected file ----
 server <- function(input, output) {
 
+  ###################################################################
+  ######## File Upload and returning the table to display it ########
+  ###################################################################
+
   i <- reactive({ sliderInput$rows })
-
   output$contents <- DT::renderDataTable({
-
-    # input$file1 will be NULL initially. After the user selects
-    # and uploads a file, head of that data file by default,
-    # or all rows if selected, will be shown.
-
     req(input$file1)
-
-    # when reading semicolon separated files,
-    # having a comma separator causes `read.csv` to error
-    tryCatch(
-    {
-      df <- read.csv(input$file1$datapath)
-    },
-      error = function(e) {
-        # return a safeError if a parsing error occurs
-        stop(safeError(e))
-      }
-    )
-
-    return(df)
-
+    return(getTable(input$file1))
   }, options = list(
     paging = TRUE,
     pageLength = input$rows
-  )
-  )
+  ))
+
+  output$summary <- renderPrint({
+    req(input$file1)
+    str(getTable(input$file1))
+  })
+
+  ###################################################################
+  ############## First plot's section, 1 variable case ##############
+  ###################################################################
+
+  output$input_var <- renderText({
+    req(input$first_var_1)
+    return(input$first_var_1)
+  })
+
+
 }
