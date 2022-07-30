@@ -1,37 +1,44 @@
 library(shiny)
 
-# Define UI for data upload app ----
 ui <- fluidPage(
+  ###################################################################
+  ######## File Upload and returning the table to display it ########
+  ###################################################################
 
-  # App title ----
   titlePanel("Uploading Files"),
-
-  # Sidebar layout with input and output definitions ----
   sidebarLayout(
-
-    # Sidebar panel for inputs ----
     sidebarPanel(
-
-      # Input: Select a file ----
       fileInput("file1", "Choose CSV File",
                 multiple = FALSE,
                 accept = c("text/csv",
                            "text/comma-separated-values,text/plain",
                            ".csv",
                            ".tsv")),
-
-      # Horizontal line ----
       tags$hr()
     ),
-
-    # Main panel for displaying outputs ----
     mainPanel(
-
-      # Output: Data file ----
-      DT::dataTableOutput("contents")
-
+      tabsetPanel(
+        tabPanel("Table", DT::dataTableOutput("contents")),
+        tabPanel("Summary", verbatimTextOutput("summary"))
+      )
     )
+  ),
 
+  ###################################################################
+  ############## First plot's section, 1 variable case ##############
+  ###################################################################
+
+  # Needs to be changed
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("first_var_1", "Variable:",
+                  c("Cylinders" = "cyl",
+                    "Transmission" = "am",
+                    "Gears" = "gear"))
+    ),
+    mainPanel(
+      textOutput("input_var")
+    )
   )
 )
 
