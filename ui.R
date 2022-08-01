@@ -1,4 +1,5 @@
 ui <- fluidPage(
+
   ###################################################################
   ######## File Upload and returning the table to display it ########
   ###################################################################
@@ -44,18 +45,87 @@ ui <- fluidPage(
   ############## First plot's section, 1 variable case ##############
   ###################################################################
 
-  # Needs to be changed
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("first_var_1", "Variable:",
-                  c("Cylinders" = "cyl",
-                    "Transmission" = "am",
-                    "Gears" = "gear"))
+  fluidRow(
+    column(3,
+           wellPanel(
+             selectInput("first_var_1", "Select Variable 1:",
+                         c("Cylinders" = "cyl",
+                           "Transmission" = "am",
+                           "MPG" = "mpg")),
+             selectInput("first_var_2", "Select Date:",
+                         c("Transmission" = "am",
+                           "Cylinders" = "cyl",
+                           "MPG" = "mpg")),
+           )
     ),
-    mainPanel(
-      textOutput("input_var")
+
+    column(4,
+           textOutput("bio_text_1")
+    ),
+
+    column(5,
+           plotOutput("plot_1")
+    )
+  ),
+
+  ###################################################################
+  ############## Second plot's section, 2 variable case #############
+  ###################################################################
+
+  fluidRow(
+    column(3,
+           wellPanel(
+             selectInput("second_var_1", "Select Variable 1:",
+                         c("Cylinders" = "cyl",
+                           "Transmission" = "am",
+                           "MPG" = "mpg")),
+             selectInput("second_var_2", "Select Variable 2:",
+                         c("Transmission" = "am",
+                           "Cylinders" = "cyl",
+                           "MPG" = "mpg")),
+           )
+    ),
+
+    column(4,
+           textOutput("bio_text_2")
+    ),
+
+    column(5,
+           plotOutput("plot_2")
+    )
+  ),
+
+  ###################################################################
+  ############## Third plot's section, 3 variable case ##############
+  ###################################################################
+
+  fluidRow(
+    column(3,
+           wellPanel(
+             selectInput("third_var_1", "Select Variable 1:",
+                         c("Cylinders" = "cyl",
+                           "Transmission" = "am",
+                           "MPG" = "mpg")),
+             selectInput("third_var_2", "Select Variable 2:",
+                         c("Transmission" = "am",
+                           "Cylinders" = "cyl",
+                           "MPG" = "mpg")),
+             selectInput("third_var_3", "Select Variable 3:",
+                         c("Transmission" = "am",
+                           "Cylinders" = "cyl",
+                           "MPG" = "mpg")),
+           )
+    ),
+
+    column(4,
+           textOutput("bio_text_3")
+    ),
+
+    column(5,
+           plotOutput("plot_3")
     )
   )
+
 )
 
 shinyApp(ui, server) 
