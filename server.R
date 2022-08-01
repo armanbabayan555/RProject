@@ -23,9 +23,48 @@ server <- function(input, output) {
   ############## First plot's section, 1 variable case ##############
   ###################################################################
 
-  output$input_var <- renderText({
+  output$plot_1 <- renderPlot({
     req(input$first_var_1)
-    return(input$first_var_1)
+    req(input$first_var_2)
+    p1 <- ggplot(data = mtcars, mapping = aes(x = input$first_var_1, y = input$first_var_2)) + geom_bar(stat = 'identity')
+    return(p1)
+  })
+
+  output$bio_text_1 <- renderText({
+    return("Lorem Ipsum Dolor molor kaputachya Amalfitano")
+  })
+
+  ###################################################################
+  ############## Second plot's section, 2 variable case #############
+  ###################################################################
+
+  output$plot_2 <- renderPlot({
+    req(input$second_var_1)
+    req(input$second_var_2)
+    p2 <- ggplot(data = mtcars, mapping = aes(x = input$second_var_1, y = input$second_var_2)) + geom_bar(stat = 'identity')
+    return(p2)
+  })
+
+  output$bio_text_2 <- renderText({
+    return("Lorem Ipsum Dolor molor kaputachya Amalfitano achqerd chinar du nanar")
+  })
+
+  ###################################################################
+  ############## Third plot's section, 3 variable case ##############
+  ###################################################################
+
+  output$plot_3 <- renderPlot({
+    req(input$third_var_1)
+    req(input$third_var_2)
+    req(input$third_var_3)
+    p3 <- ggplot(data = mtcars, mapping = aes(x = input$third_var_1, y = input$third_var_2)) +
+      geom_bar(stat = 'identity') +
+      facet_wrap(~input$third_var_3)
+    return(p3)
+  })
+
+  output$bio_text_3 <- renderText({
+    return("Lorem Ipsum Dolor molor kaputachya Amalfitano achqerd chinar du nanar sirun qnqush mer chinar")
   })
 
 
