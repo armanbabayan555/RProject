@@ -3,7 +3,9 @@ data_test <- data.frame(
   value = c(3, 12, 5, 18, 45),
   color = c("Green", "Blue", "Red", "Brown", "Orange")
 )
-ui <- fluidPage(
+library(shiny)
+library(shinythemes)
+ui <- fluidPage(theme = shinytheme("flatly"),
 
 
   ###################################################################

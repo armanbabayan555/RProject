@@ -1,4 +1,6 @@
 library(DT)
+library(shiny)
+library(ggplot2)
 
 data_test <- data.frame(
   name = c("A", "B", "C", "D", "E"),
