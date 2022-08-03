@@ -1,4 +1,10 @@
+data_test <- data.frame(
+  name = c("A", "B", "C", "D", "E"),
+  value = c(3, 12, 5, 18, 45),
+  color = c("Green", "Blue", "Red", "Brown", "Orange")
+)
 ui <- fluidPage(
+
 
   ###################################################################
   ######## File Upload and returning the table to display it ########
@@ -48,14 +54,10 @@ ui <- fluidPage(
   fluidRow(
     column(3,
            wellPanel(
-             selectInput("first_var_1", "Select Variable 1:",
-                         c("Cylinders" = "cyl",
-                           "Transmission" = "am",
-                           "MPG" = "mpg")),
-             selectInput("first_var_2", "Select Date:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
+             varSelectInput("first_var_1", "Select Variable 1:",
+                            data_test),
+             varSelectInput("first_var_2", "Select Date:",
+                            data_test),
            )
     ),
 
@@ -75,14 +77,10 @@ ui <- fluidPage(
   fluidRow(
     column(3,
            wellPanel(
-             selectInput("second_var_1", "Select Variable 1:",
-                         c("Cylinders" = "cyl",
-                           "Transmission" = "am",
-                           "MPG" = "mpg")),
-             selectInput("second_var_2", "Select Variable 2:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
+             varSelectInput("second_var_1", "Select Variable 1:",
+                            data_test),
+             varSelectInput("second_var_2", "Select Vafiable 2:",
+                            data_test),
            )
     ),
 
@@ -102,18 +100,12 @@ ui <- fluidPage(
   fluidRow(
     column(3,
            wellPanel(
-             selectInput("third_var_1", "Select Variable 1:",
-                         c("Cylinders" = "cyl",
-                           "Transmission" = "am",
-                           "MPG" = "mpg")),
-             selectInput("third_var_2", "Select Variable 2:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
-             selectInput("third_var_3", "Select Variable 3:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
+             varSelectInput("third_var_1", "Select Variable 1:",
+                            data_test),
+             varSelectInput("third_var_2", "Select Vafiable 2:",
+                            data_test),
+             varSelectInput("third_var_3", "Select Vafiable 3:",
+                            data_test),
            )
     ),
 
@@ -128,4 +120,4 @@ ui <- fluidPage(
 
 )
 
-shinyApp(ui, server) 
+shinyApp(ui, server)
