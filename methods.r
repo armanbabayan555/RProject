@@ -2,7 +2,7 @@ getTable <- function(file) {
   tryCatch(
   {
     data <- read.csv(file$datapath)
-    for (j in 1:length(data)) {
+    for (j in seq_along(data)) {
       if (is.numeric(data[, j])) {
         na_s <- which(is.na(data[, j]))
         if (!is.null(na_s)) {
@@ -41,5 +41,5 @@ getTable <- function(file) {
     }
   )
 
-  return(data)
+  return(as.data.frame(data))
 }
