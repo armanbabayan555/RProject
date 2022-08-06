@@ -3,81 +3,74 @@ library(shiny)
 library(ggplot2)
 library(data.table)
 
-options(shiny.maxRequestSize=30*1024^2)
+options(shiny.maxRequestSize = 30 * 1024^2)
 
-get_graph_type <- function(graph_type) {
-  if (graph_type == "point") {
-    return(geom_point())
+draw_plot <- function(data_input, var_1, var_2, var_3) {
+  if (var_1 != not_sel & !is.numeric(data_input[, (var_1)])) {
+    data_input[, (var_1)] <- as.factor(data_input[, get(var_1)])
   }
-  else if (graph_type == "bar") {
-    return(geom_bar(stat = "identity"))
+  if (var_2 != not_sel & !is.numeric(data_input[, (var_2)])) {
+    data_input[, (var_2)] <- as.factor(data_input[, get(var_2)])
   }
-  else if (graph_type == "hist") {
-    return(geom_histogram(stat="count"))
-  }
-}
-
-
-draw_plot <- function(data_input, num_var_1, num_var_2, fact_var, graph_type) {
-  if (num_var_1 != not_sel & !is.numeric(num_var_1)) {
-    data_input[, (num_var_1)] <- as.factor(data_input[, get(num_var_1)])
-  }
-  if (num_var_2 != not_sel & !is.numeric(num_var_2)) {
-    data_input[, (num_var_2)] <- as.factor(data_input[, get(num_var_2)])
-  }
-  if (fact_var != not_sel & !is.numeric(fact_var)) {
-    data_input[, (fact_var)] <- as.factor(data_input[, get(fact_var)])
+  if (var_3 != not_sel & !is.numeric(data_input[, (var_1)])) {
+    data_input[, (var_3)] <- as.factor(data_input[, get(var_3)])
   }
 
-  if (num_var_1 != not_sel &
-    num_var_2 != not_sel &
-    fact_var != not_sel) {
-    ggplot(data = data_input,
-           aes_string(x = num_var_1, y = num_var_2, color = fact_var)) +
-      get_graph_type(graph_type)
+  if (var_1 != not_sel) {
+    showNotification(data_input[, (var_1)][[1]])
+    # showNotification(class(data_input[, (var_1)][[1]]))
+    # 1 variable case
+    if (var_2 == not_sel & var_3 == not_sel) {
+      # numeric case
+      if (is.numeric(data_input[, (var_1)])) {
+        # discrete
+        if (is.discrete(data_input[, (var_1)])) {
+          ggplot(data = data_input,
+                 aes_string(x = var_1)) + geom_bar()
+        }
+          # continious
+        else {
+          ggplot(data = data_input,
+                 aes_string(x = var_1)) + geom_histogram()
+        }
+      }
+        # categorical case
+      else {
+        ggplot(data = data_input,
+               aes_string(x = var_1)) + geom_bar()
+      }
+
+    }
+      # 2 variable case
+    else if (var_2 != not_sel & var_3 == not_sel) {
+      showNotification(class(data_input[, (var_1)]))
+      showNotification(class(data_input[, (var_2)]))
+
+      # both numeric
+      if (is.numeric(data_input[, (var_1)]) & is.numeric(data_input[, (var_2)])) {
+        ggplot(data = data_input,
+               aes_string(x = var_1, y = var_2)) + geom_line()
+      }
+        # 1 numeric - 1
+      else if (is.numeric(data_input[, (var_1)]) & !is.numeric(data_input[, (var_2)])) {
+        ggplot(data = data_input,
+               aes_string(x = var_1, fill = var_2)) + geom_density()
+      }
+        # 1 numeric - 2
+      else if (!is.numeric(data_input[, (var_1)]) & is.numeric(data_input[, (var_2)])) {
+        ggplot(data = data_input,
+               aes_string(x = var_2, fill = var_1)) + geom_density()
+      }
+        # both categorical
+      else if (!is.numeric(data_input[, (var_1)]) & !is.numeric(data_input[, (var_2)])) {
+        ggplot(data = data_input,
+               aes_string(x = var_1, fill = var_2)) +
+          geom_bar(position = "fill") +
+          labs(y = "Proportion")
+      }
+    }
   }
-  else if (num_var_1 != not_sel &
-    num_var_2 != not_sel &
-    fact_var == not_sel) {
-    ggplot(data = data_input,
-           aes_string(x = num_var_1, y = num_var_2)) +
-      get_graph_type(graph_type)
-  }
-  else if (num_var_1 != not_sel &
-    num_var_2 == not_sel &
-    fact_var != not_sel) {
-    ggplot(data = data_input,
-           aes_string(x = fact_var, y = num_var_1)) +
-      get_graph_type(graph_type)
-  }
-  else if (num_var_1 == not_sel &
-    num_var_2 != not_sel &
-    fact_var != not_sel) {
-    ggplot(data = data_input,
-           aes_string(x = fact_var, y = num_var_2)) +
-      get_graph_type(graph_type)
-  }
-  else if (num_var_1 != not_sel &
-    num_var_2 == not_sel &
-    fact_var == not_sel) {
-    ggplot(data = data_input,
-           aes_string(x = num_var_1)) +
-      get_graph_type(graph_type)
-  }
-  else if (num_var_1 == not_sel &
-    num_var_2 != not_sel &
-    fact_var == not_sel) {
-    ggplot(data = data_input,
-           aes_string(x = num_var_2)) +
-      get_graph_type(graph_type)
-  }
-  else if (num_var_1 == not_sel &
-    num_var_2 == not_sel &
-    fact_var != not_sel) {
-    ggplot(data = data_input,
-           aes_string(x = fact_var)) +
-      get_graph_type(graph_type)
-  }
+
 }
 
 server <- function(input, output, session) {
@@ -111,15 +104,12 @@ server <- function(input, output, session) {
   observeEvent(getData(), {
     choices <- c(not_sel, names(getData()))
     updateSelectInput(session, "first_var_1", choices = choices)
-    updateSelectInput(session, "first_var_2", choices = choices)
   })
 
   first_var_1 <- eventReactive(input$run_button_1, input$first_var_1)
-  first_var_2 <- eventReactive(input$run_button_1, input$first_var_2)
-  graph_type_1 <- eventReactive(input$run_button_1, input$graph_type_1)
 
   plot_1 <- eventReactive(input$run_button_1, {
-    draw_plot(getData(), first_var_1(), first_var_2(), not_sel, graph_type_1())
+    draw_plot(getData(), first_var_1(), not_sel, not_sel)
   })
 
   output$plot_1 <- renderPlot(plot_1())
@@ -141,11 +131,10 @@ server <- function(input, output, session) {
 
   second_var_1 <- eventReactive(input$run_button_2, input$second_var_1)
   second_var_2 <- eventReactive(input$run_button_2, input$second_var_2)
-  graph_type_2 <- eventReactive(input$run_button_1, input$graph_type_2)
 
 
   plot_2 <- eventReactive(input$run_button_2, {
-    draw_plot(getData(), second_var_1(), second_var_2(), not_sel, graph_type_2())
+    draw_plot(getData(), second_var_1(), second_var_2(), not_sel)
   })
 
   output$plot_2 <- renderPlot(plot_2())
@@ -169,11 +158,10 @@ server <- function(input, output, session) {
   third_var_1 <- eventReactive(input$run_button_3, input$third_var_1)
   third_var_2 <- eventReactive(input$run_button_3, input$third_var_2)
   third_var_3 <- eventReactive(input$run_button_3, input$third_var_3)
-  graph_type_3 <- eventReactive(input$run_button_1, input$graph_type_3)
 
 
   plot_3 <- eventReactive(input$run_button_3, {
-    draw_plot(getData(), third_var_1(), third_var_2(), third_var_3(), graph_type_3())
+    draw_plot(getData(), third_var_1(), third_var_2(), third_var_3())
   })
 
   output$plot_3 <- renderPlot(plot_3())
