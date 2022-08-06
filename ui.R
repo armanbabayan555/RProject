@@ -1,4 +1,7 @@
+library(shiny)
+library(shinythemes)
 ui <- fluidPage(
+  theme = shinytheme("flatly"),
 
   ###################################################################
   ######## File Upload and returning the table to display it ########
@@ -49,13 +52,11 @@ ui <- fluidPage(
     column(3,
            wellPanel(
              selectInput("first_var_1", "Select Variable 1:",
-                         c("Cylinders" = "cyl",
-                           "Transmission" = "am",
-                           "MPG" = "mpg")),
+                         choices = not_sel),
              selectInput("first_var_2", "Select Date:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
+                         choices = not_sel),
+             br(),
+             actionButton("run_button_1", "Run", icon = icon("play"))
            )
     ),
 
@@ -76,13 +77,11 @@ ui <- fluidPage(
     column(3,
            wellPanel(
              selectInput("second_var_1", "Select Variable 1:",
-                         c("Cylinders" = "cyl",
-                           "Transmission" = "am",
-                           "MPG" = "mpg")),
+                         choices = not_sel),
              selectInput("second_var_2", "Select Variable 2:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
+                         choices = not_sel),
+             br(),
+             actionButton("run_button_2", "Run", icon = icon("play"))
            )
     ),
 
@@ -103,17 +102,13 @@ ui <- fluidPage(
     column(3,
            wellPanel(
              selectInput("third_var_1", "Select Variable 1:",
-                         c("Cylinders" = "cyl",
-                           "Transmission" = "am",
-                           "MPG" = "mpg")),
+                         choices = not_sel),
              selectInput("third_var_2", "Select Variable 2:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
+                         choices = not_sel),
              selectInput("third_var_3", "Select Variable 3:",
-                         c("Transmission" = "am",
-                           "Cylinders" = "cyl",
-                           "MPG" = "mpg")),
+                         choices = not_sel),
+             br(),
+             actionButton("run_button_3", "Run", icon = icon("play"))
            )
     ),
 
@@ -128,4 +123,4 @@ ui <- fluidPage(
 
 )
 
-shinyApp(ui, server) 
+shinyApp(ui, server)
