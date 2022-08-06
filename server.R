@@ -1,6 +1,9 @@
 library(DT)
 library(shiny)
 library(ggplot2)
+library(data.table)
+
+options(shiny.maxRequestSize=30*1024^2)
 
 get_graph_type <- function(graph_type) {
   if (graph_type == "point") {
