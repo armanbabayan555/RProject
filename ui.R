@@ -1,12 +1,7 @@
-data_test <- data.frame(
-  name = c("A", "B", "C", "D", "E"),
-  value = c(3, 12, 5, 18, 45),
-  color = c("Green", "Blue", "Red", "Brown", "Orange")
-)
 library(shiny)
 library(shinythemes)
-ui <- fluidPage(theme = shinytheme("flatly"),
-
+ui <- fluidPage(
+  theme = shinytheme("flatly"),
 
   ###################################################################
   ######## File Upload and returning the table to display it ########
@@ -56,10 +51,12 @@ ui <- fluidPage(theme = shinytheme("flatly"),
   fluidRow(
     column(3,
            wellPanel(
-             varSelectInput("first_var_1", "Select Variable 1:",
-                            data_test),
-             varSelectInput("first_var_2", "Select Date:",
-                            data_test),
+             selectInput("first_var_1", "Select Variable 1:",
+                         choices = not_sel),
+             selectInput("first_var_2", "Select Date:",
+                         choices = not_sel),
+             br(),
+             actionButton("run_button_1", "Run", icon = icon("play"))
            )
     ),
 
@@ -79,10 +76,12 @@ ui <- fluidPage(theme = shinytheme("flatly"),
   fluidRow(
     column(3,
            wellPanel(
-             varSelectInput("second_var_1", "Select Variable 1:",
-                            data_test),
-             varSelectInput("second_var_2", "Select Vafiable 2:",
-                            data_test),
+             selectInput("second_var_1", "Select Variable 1:",
+                         choices = not_sel),
+             selectInput("second_var_2", "Select Variable 2:",
+                         choices = not_sel),
+             br(),
+             actionButton("run_button_2", "Run", icon = icon("play"))
            )
     ),
 
@@ -102,12 +101,14 @@ ui <- fluidPage(theme = shinytheme("flatly"),
   fluidRow(
     column(3,
            wellPanel(
-             varSelectInput("third_var_1", "Select Variable 1:",
-                            data_test),
-             varSelectInput("third_var_2", "Select Vafiable 2:",
-                            data_test),
-             varSelectInput("third_var_3", "Select Vafiable 3:",
-                            data_test),
+             selectInput("third_var_1", "Select Variable 1:",
+                         choices = not_sel),
+             selectInput("third_var_2", "Select Variable 2:",
+                         choices = not_sel),
+             selectInput("third_var_3", "Select Variable 3:",
+                         choices = not_sel),
+             br(),
+             actionButton("run_button_3", "Run", icon = icon("play"))
            )
     ),
 
