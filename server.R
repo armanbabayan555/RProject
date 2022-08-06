@@ -98,7 +98,7 @@ server <- function(input, output, session) {
 
   getData <- reactive({
     req(input$file1)
-    fread(input$file1$datapath)
+    getTable(input$file1)
   })
 
   ###################################################################
