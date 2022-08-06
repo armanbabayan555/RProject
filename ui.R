@@ -2,6 +2,7 @@ library(shiny)
 library(shinythemes)
 
 graph_types<-c("point", "bar", "hist")
+not_sel <- "Not Selected"
 
 ui <- fluidPage(
   theme = shinytheme("flatly"),
