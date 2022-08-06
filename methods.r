@@ -41,5 +41,5 @@ getTable <- function(file) {
     }
   )
 
-  return(as.data.frame(data))
+  return(as.data.table(data))
 }
