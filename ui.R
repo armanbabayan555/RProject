@@ -1,5 +1,8 @@
 library(shiny)
 library(shinythemes)
+
+graph_types<-c("point", "bar", "hist")
+
 ui <- fluidPage(
   theme = shinytheme("flatly"),
 
@@ -55,6 +58,8 @@ ui <- fluidPage(
                          choices = not_sel),
              selectInput("first_var_2", "Select Date:",
                          choices = not_sel),
+             selectInput("graph_type_1", "Select Graph Type:",
+                         choices = graph_types),
              br(),
              actionButton("run_button_1", "Run", icon = icon("play"))
            )
@@ -80,6 +85,8 @@ ui <- fluidPage(
                          choices = not_sel),
              selectInput("second_var_2", "Select Variable 2:",
                          choices = not_sel),
+             selectInput("graph_type_2", "Select Graph Type:",
+                         choices = graph_types),
              br(),
              actionButton("run_button_2", "Run", icon = icon("play"))
            )
@@ -107,6 +114,8 @@ ui <- fluidPage(
                          choices = not_sel),
              selectInput("third_var_3", "Select Variable 3:",
                          choices = not_sel),
+             selectInput("graph_type_3", "Select Graph Type:",
+                         choices = graph_types),
              br(),
              actionButton("run_button_3", "Run", icon = icon("play"))
            )
