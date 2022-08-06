@@ -5,46 +5,34 @@ library(data.table)
 
 options(shiny.maxRequestSize = 30 * 1024^2)
 
-draw_plot <- function(data_input, var_1, var_2, var_3) {
+draw_plot <- function(data_input, var_1, var_2, var_3, bin_width_1 = -1, fill_type_3 = "color") {
   if (var_1 != not_sel & !is.numeric(data_input[, (var_1)])) {
-    data_input[, (var_1)] <- as.factor(data_input[, get(var_1)])
+    data_input[, (var_1) := as.factor(data_input[, get(var_1)])]
+
   }
   if (var_2 != not_sel & !is.numeric(data_input[, (var_2)])) {
-    data_input[, (var_2)] <- as.factor(data_input[, get(var_2)])
+    data_input[, (var_2) := as.factor(data_input[, get(var_2)])]
+
   }
-  if (var_3 != not_sel & !is.numeric(data_input[, (var_1)])) {
-    data_input[, (var_3)] <- as.factor(data_input[, get(var_3)])
+  if (var_3 != not_sel & !is.numeric(data_input[, (var_3)])) {
+    data_input[, (var_3) := as.factor(data_input[, get(var_3)])]
+
   }
 
   if (var_1 != not_sel) {
-    showNotification(data_input[, (var_1)][[1]])
-    # showNotification(class(data_input[, (var_1)][[1]]))
     # 1 variable case
     if (var_2 == not_sel & var_3 == not_sel) {
-      # numeric case
-      if (is.numeric(data_input[, (var_1)])) {
-        # discrete
-        if (is.discrete(data_input[, (var_1)])) {
-          ggplot(data = data_input,
-                 aes_string(x = var_1)) + geom_bar()
-        }
-          # continious
-        else {
-          ggplot(data = data_input,
-                 aes_string(x = var_1)) + geom_histogram()
-        }
+      if (bin_width_1 > 0) {
+        ggplot(data = data_input,
+               aes_string(x = var_1)) + geom_bar(width = bin_width_1)
       }
-        # categorical case
       else {
         ggplot(data = data_input,
                aes_string(x = var_1)) + geom_bar()
       }
-
     }
       # 2 variable case
     else if (var_2 != not_sel & var_3 == not_sel) {
-      showNotification(class(data_input[, (var_1)]))
-      showNotification(class(data_input[, (var_2)]))
 
       # both numeric
       if (is.numeric(data_input[, (var_1)]) & is.numeric(data_input[, (var_2)])) {
@@ -67,6 +55,16 @@ draw_plot <- function(data_input, var_1, var_2, var_3) {
                aes_string(x = var_1, fill = var_2)) +
           geom_bar(position = "fill") +
           labs(y = "Proportion")
+      }
+    }
+
+    else if (var_2 != not_sel & var_3 != not_sel) {
+      if (fill_type_3 == "shape") {
+        ggplot(data = data_input,
+               aes_string(x = var_1, y = var_2, shape = var_3)) + geom_point()
+      }
+      else { ggplot(data = data_input,
+                    aes_string(x = var_1, y = var_2, color = var_3)) + geom_point()
       }
     }
   }
@@ -107,15 +105,16 @@ server <- function(input, output, session) {
   })
 
   first_var_1 <- eventReactive(input$run_button_1, input$first_var_1)
+  bin_width_1 <- eventReactive(input$run_button_1, input$bin_width_1)
 
   plot_1 <- eventReactive(input$run_button_1, {
-    draw_plot(getData(), first_var_1(), not_sel, not_sel)
+    draw_plot(getData(), first_var_1(), not_sel, not_sel, bin_width_1 = bin_width_1())
   })
 
   output$plot_1 <- renderPlot(plot_1())
 
   output$bio_text_1 <- renderText({
-    return("Lorem Ipsum Dolor molor kaputachya Amalfitano")
+    return("This section is designed to plot a graph of 1 variable. It will plot a barplot, for which you can choose the bin width or simply leave it -1 to nos specify anything")
   })
 
 
@@ -140,7 +139,7 @@ server <- function(input, output, session) {
   output$plot_2 <- renderPlot(plot_2())
 
   output$bio_text_2 <- renderText({
-    return("Lorem Ipsum Dolor molor kaputachya Amalfitano achqerd chinar du nanar")
+    return("This section is designed to plot a graph of 2 variables. It will plot a line graph in case of 2 numeric variables, a bar plot for 2 categorical variables, and a density plot for other cases")
   })
 
 
@@ -158,16 +157,17 @@ server <- function(input, output, session) {
   third_var_1 <- eventReactive(input$run_button_3, input$third_var_1)
   third_var_2 <- eventReactive(input$run_button_3, input$third_var_2)
   third_var_3 <- eventReactive(input$run_button_3, input$third_var_3)
+  fill_type_3 <- eventReactive(input$run_button_3, input$fill_type_3)
 
 
   plot_3 <- eventReactive(input$run_button_3, {
-    draw_plot(getData(), third_var_1(), third_var_2(), third_var_3())
+    draw_plot(getData(), third_var_1(), third_var_2(), third_var_3(), fill_type_3 = fill_type_3())
   })
 
   output$plot_3 <- renderPlot(plot_3())
 
   output$bio_text_3 <- renderText({
-    return("Lorem Ipsum Dolor molor kaputachya Amalfitano achqerd chinar du nanar sirun qnqush mer chinar")
+    return("This section is designed to plot a graph of 3 variables. It will plot a scatter plot, with 3rd variable used as color or shape, by your choice")
   })
 
 
