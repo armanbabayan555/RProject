@@ -2,6 +2,7 @@ library(DT)
 library(shiny)
 library(ggplot2)
 library(data.table)
+library(reshape2)
 
 options(shiny.maxRequestSize = 30 * 1024^2)
 
@@ -171,4 +172,10 @@ server <- function(input, output, session) {
   })
 
 
+  ouput$plot_4 <- renderPlot({
+    data <- getData()
+    cormat <- round(cor(data),2)
+    melted_cormat <- reshape2::melt(cormat)
+    ggplot(data = melted_cormat, aes(x = Var1, y = Var2, fill = value)) + geom_raster()
+  })
 }

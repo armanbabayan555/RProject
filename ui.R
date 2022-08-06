@@ -103,6 +103,13 @@ ui <- fluidPage(
     column(5,
            plotOutput("plot_3")
     )
+  ),
+
+  fluidRow(
+    column(12, wellPanel(
+      plotOutput('plot_4')
+    )
+    )
   )
 
 )
