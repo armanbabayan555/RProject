@@ -50,11 +50,11 @@ ui <- fluidPage(
            )
     ),
 
-    column(4,
+    column(3,
            textOutput("bio_text_1")
     ),
 
-    column(5,
+    column(6,
            plotOutput("plot_1")
     )
   ),
@@ -79,11 +79,11 @@ ui <- fluidPage(
            )
     ),
 
-    column(4,
+    column(3,
            textOutput("bio_text_2")
     ),
 
-    column(5,
+    column(6,
            plotOutput("plot_2")
     )
   ),
@@ -111,11 +111,11 @@ ui <- fluidPage(
            )
     ),
 
-    column(4,
+    column(3,
            textOutput("bio_text_3")
     ),
 
-    column(5,
+    column(6,
            plotOutput("plot_3")
     )
   ),
@@ -127,14 +127,19 @@ ui <- fluidPage(
   ###################################################################
   ####################### Correlation Heatmap #######################
   ###################################################################
+
   fluidRow(
     column(3, wellPanel(
-      selectInput('correlation_type', 'Choose the Correlation Technique: ', choices = correlation_types)
+      selectInput('correlation_type', 'Choose the Correlation Technique: ', choices = correlation_types),
+      actionButton("run_button_4", "Run", icon = icon("play"))
+
     )),
+    column(3,
+           textOutput("bio_text_4")
+    ),
     column(6,
            plotOutput("plot_4")
     ),
-    column(3)
   )
 )
 
