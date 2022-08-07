@@ -5,71 +5,6 @@ library(data.table)
 
 options(shiny.maxRequestSize = 30 * 1024^2)
 
-draw_plot <- function(data_input, var_1, var_2, var_3, bin_width_1 = -1, fill_type_3 = "color") {
-  if (var_1 != not_sel & !is.numeric(data_input[, (var_1)])) {
-    data_input[, (var_1) := as.factor(data_input[, get(var_1)])]
-
-  }
-  if (var_2 != not_sel & !is.numeric(data_input[, (var_2)])) {
-    data_input[, (var_2) := as.factor(data_input[, get(var_2)])]
-
-  }
-  if (var_3 != not_sel & !is.numeric(data_input[, (var_3)])) {
-    data_input[, (var_3) := as.factor(data_input[, get(var_3)])]
-
-  }
-
-  if (var_1 != not_sel) {
-    # 1 variable case
-    if (var_2 == not_sel & var_3 == not_sel) {
-      if (bin_width_1 > 0) {
-        ggplot(data = data_input,
-               aes_string(x = var_1)) + geom_bar(width = bin_width_1)
-      }
-      else {
-        ggplot(data = data_input,
-               aes_string(x = var_1)) + geom_bar()
-      }
-    }
-      # 2 variable case
-    else if (var_2 != not_sel & var_3 == not_sel) {
-
-      # both numeric
-      if (is.numeric(data_input[, (var_1)]) & is.numeric(data_input[, (var_2)])) {
-        ggplot(data = data_input,
-               aes_string(x = var_1, y = var_2)) + geom_line()
-      }
-        # 1 numeric - 1
-      else if (is.numeric(data_input[, (var_1)]) & !is.numeric(data_input[, (var_2)])) {
-        ggplot(data = data_input,
-               aes_string(x = var_1, fill = var_2)) + geom_density()
-      }
-        # 1 numeric - 2
-      else if (!is.numeric(data_input[, (var_1)]) & is.numeric(data_input[, (var_2)])) {
-        ggplot(data = data_input,
-               aes_string(x = var_2, fill = var_1)) + geom_density()
-      }
-        # both categorical
-      else if (!is.numeric(data_input[, (var_1)]) & !is.numeric(data_input[, (var_2)])) {
-        ggplot(data = data_input,
-               aes_string(x = var_1, fill = var_2)) +
-          geom_bar(position = "fill") +
-          labs(y = "Proportion")
-      }
-    }
-
-    else if (var_2 != not_sel & var_3 != not_sel) {
-      if (fill_type_3 == "shape") {
-        ggplot(data = data_input,
-               aes_string(x = var_1, y = var_2, shape = var_3)) + geom_point()
-      }
-      else { ggplot(data = data_input,
-                    aes_string(x = var_1, y = var_2, color = var_3)) + geom_point()
-      }
-    }
-  }
-
-}
 
 server <- function(input, output, session) {
 
@@ -157,17 +92,18 @@ server <- function(input, output, session) {
   third_var_1 <- eventReactive(input$run_button_3, input$third_var_1)
   third_var_2 <- eventReactive(input$run_button_3, input$third_var_2)
   third_var_3 <- eventReactive(input$run_button_3, input$third_var_3)
+  graph_type_3 <- eventReactive(input$graph_type_3, input$graph_type_3)
   fill_type_3 <- eventReactive(input$run_button_3, input$fill_type_3)
 
 
   plot_3 <- eventReactive(input$run_button_3, {
-    draw_plot(getData(), third_var_1(), third_var_2(), third_var_3(), fill_type_3 = fill_type_3())
+    draw_plot(getData(), third_var_1(), third_var_2(), third_var_3(), graph_type_3 = graph_type_3(), fill_type_3 = fill_type_3())
   })
 
   output$plot_3 <- renderPlot(plot_3())
 
   output$bio_text_3 <- renderText({
-    return("This section is designed to plot a graph of 3 variables. It will plot a scatter plot, with 3rd variable used as color or shape, by your choice")
+    return("This section is designed to plot a graph of 3 variables. It can plot a correlation heatmap or a scatter plot, with 3rd variable used as color or shape, by your choice. At least 1 numeric variable should be selected for correlation heatmap")
   })
 
 

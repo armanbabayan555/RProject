@@ -104,6 +104,8 @@ ui <- fluidPage(
                          choices = not_sel),
              selectInput("third_var_3", "Select Variable 3:",
                          choices = not_sel),
+             selectInput("graph_type_3", "Select Graph type:",
+                         choices = c("scatter", "heatmap")),
              selectInput("fill_type_3", "Select 3rd variable's usage:",
                          choices = c("color", "shape")),
              br(),
