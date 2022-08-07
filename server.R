@@ -130,20 +130,19 @@ server <- function(input, output, session) {
 
   plot_4 <- eventReactive(input$file1, {
     num_dat <- select_if(getData(), is.numeric)
-    cormat <- round(cor(num_dat), 2)
+    cormat <- round(cor(num_dat, method = input$correlation_type), 2)
     cormat <- reorder_cormat(cormat)
     upper_tri <- get_upper_tri(cormat)
-    melted_cormat <- melt(upper_tri, na.rm = TRUE)
-    ggplot(data = melted_cormat, aes(x = Var1, y = Var2, fill = value)) +
+    melted_cormat <- reshape2::melt(upper_tri, na.rm = TRUE)
+    ggplot(melted_cormat, aes(Var2, Var1, fill = value)) +
       geom_tile(color = "white") +
-      scale_fill_gradient2(low = "blue", high = "red", mid = "white",
-                           midpoint = 0, limit = c(-1, 1), space = "Lab",
-                           name = "Pearson\nCorrelation") +
-      theme_minimal() +
-      theme(axis.text.x = element_text(angle = 45, vjust = 1,
-                                       size = 12, hjust = 1)) +
-      coord_fixed() +
-      geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
+      scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+                           midpoint = 0, limit = c(-1,1), space = "Lab", 
+                           name="Pearson\nCorrelation") +
+      theme_minimal() + # minimal theme
+      theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                       size = 12, hjust = 1))+
+      coord_fixed() + geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
       theme(
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
@@ -153,10 +152,9 @@ server <- function(input, output, session) {
         axis.ticks = element_blank(),
         legend.justification = c(1, 0),
         legend.position = c(0.6, 0.7),
-        legend.direction = "horizontal") +
+        legend.direction = "horizontal")+
       guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
                                    title.position = "top", title.hjust = 0.5))
-
   })
 
   output$plot_4 <- renderPlot(plot_4())

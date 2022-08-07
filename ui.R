@@ -1,7 +1,7 @@
 library(shiny)
 library(shinythemes)
 
-graph_types <- c("bar", "hist")
+correlation_types <- c("pearson", "spearman")
 not_sel <- "Not Selected"
 
 ui <- fluidPage(
@@ -128,7 +128,9 @@ ui <- fluidPage(
   ####################### Correlation Heatmap #######################
   ###################################################################
   fluidRow(
-    column(3),
+    column(3, wellPanel(
+      selectInput('correlation_type', 'Choose the Correlation Technique: ', choices = correlation_types)
+    )),
     column(6,
            plotOutput("plot_4")
     ),
