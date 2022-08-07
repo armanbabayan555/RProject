@@ -10,12 +10,12 @@ ui <- fluidPage(
   setBackgroundImage(
     src = "https://static.vecteezy.com/system/resources/previews/003/066/808/original/abstract-minimalist-hand-drawn-background-free-vector.jpg"
   ),
-    theme = shinytheme("journal"),
+  theme = shinytheme("journal"),
 
   ###################################################################
   ######## File Upload and returning the table to display it ########
   ###################################################################
-  h1(id="big-heading", "Uploading Files"),
+  h1(id = "big-heading", "Uploading Files"),
   tags$style(HTML("#big-heading{color: #FA8072;}")),
   sidebarLayout(
     sidebarPanel(
@@ -140,9 +140,10 @@ ui <- fluidPage(
 
     )),
     column(3,
-           textOutput("bio_text_4")
-    ),
-    column(6,
+           textOutput("bio_text_4")),
+    column(1),
+    column(1),
+    column(4,
            plotOutput("plot_4")
     ),
   )

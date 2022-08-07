@@ -94,7 +94,7 @@ draw_plot <- function(data_input, var_1, var_2, var_3, bin_width_1 = -1, fill_ty
         # 1 numeric - 1
       else if (is.numeric(data_input[, get(var_1)]) & !is.numeric(data_input[, get(var_2)])) {
         ggplot(data = data_input,
-               aes_string(x = var_1, y = var_2, fill = var_1)) + geom_violin()
+               aes_string(x = var_1, y = var_2, fill = var_2)) + geom_violin(trim = TRUE) + geom_boxplot(width=0.1, fill="white")
       }
         # 1 numeric - 2
       else if (!is.numeric(data_input[, get(var_1)]) & is.numeric(data_input[, get(var_2)])) {
