@@ -61,12 +61,12 @@ draw_plot <- function(data_input, var_1, var_2, var_3, bin_width_1 = -1, fill_ty
         # numeric
         if (is.numeric(data_input[, get(var_1)])) {
           ggplot(data = data_input,
-                 aes_string(x = var_1)) + geom_histogram(bins = bin_width_1, fill = "blue")
+                 aes_string(x = var_1)) + geom_histogram(bins = bin_width_1, fill = "pink")
         }
           # categorical
         else {
           ggplot(data = data_input,
-                 aes_string(x = var_1)) + geom_bar(width = bin_width_1, fill = "blue")
+                 aes_string(x = var_1)) + geom_bar(width = bin_width_1, fill = "pink")
         }
 
       }
@@ -74,12 +74,12 @@ draw_plot <- function(data_input, var_1, var_2, var_3, bin_width_1 = -1, fill_ty
         # numeric
         if (is.numeric(data_input[, get(var_1)])) {
           ggplot(data = data_input,
-                 aes_string(x = var_1)) + geom_histogram(fill = "blue")
+                 aes_string(x = var_1)) + geom_histogram(fill = "pink")
         }
           # categorical
         else {
           ggplot(data = data_input,
-                 aes_string(x = var_1)) + geom_bar(fill = "blue")
+                 aes_string(x = var_1)) + geom_bar(fill = "pink")
         }
       }
     }
