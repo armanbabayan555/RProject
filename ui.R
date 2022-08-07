@@ -1,17 +1,22 @@
 library(shiny)
 library(shinythemes)
+library(shinyWidgets)
+library(shinydashboard)
 
 correlation_types <- c("pearson", "spearman")
 not_sel <- "Not Selected"
 
 ui <- fluidPage(
-  theme = shinytheme("flatly"),
+  setBackgroundImage(
+    src = "https://static.vecteezy.com/system/resources/previews/003/066/808/original/abstract-minimalist-hand-drawn-background-free-vector.jpg"
+  ),
+    theme = shinytheme("journal"),
 
   ###################################################################
   ######## File Upload and returning the table to display it ########
   ###################################################################
-
-  titlePanel("Uploading Files"),
+  h1(id="big-heading", "Uploading Files"),
+  tags$style(HTML("#big-heading{color: #FA8072;}")),
   sidebarLayout(
     sidebarPanel(
       fileInput("file1", "Choose CSV File",
