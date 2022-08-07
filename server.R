@@ -52,7 +52,7 @@ server <- function(input, output, session) {
   output$plot_1 <- renderPlot(plot_1())
 
   output$bio_text_1 <- renderText({
-    return("This section is designed to plot a graph of 1 variable. It will plot a barplot, for which you can choose the bin width or simply leave it -1 to not specify anything")
+    return("This section plots a graph of a Single Variable. 'Bar Plot' will be used for categorical variables, and 'Histogram' will be used for numeric variables.")
   })
 
 
@@ -77,7 +77,7 @@ server <- function(input, output, session) {
   output$plot_2 <- renderPlot(plot_2())
 
   output$bio_text_2 <- renderText({
-    return("This section is designed to plot a graph of 2 variables. It will plot a line graph in case of 2 numeric variables, a bar plot for 2 categorical variables, and a density plot in all other cases")
+    return("This section plots a graph of 2 variables. For two numeric types, a 'Scatter Plot' will be printed. A 'Bar Plot' will be printed for two categorical types; for other cases, 'Box Plots' or 'Violin Plots' will be used.")
   })
 
 
@@ -105,7 +105,7 @@ server <- function(input, output, session) {
   output$plot_3 <- renderPlot(plot_3())
 
   output$bio_text_3 <- renderText({
-    return("This section is designed to plot a graph of 3 variables. It can plot a correlation heatmap or a scatter plot, with 3rd variable used as color or shape, by your choice. At least 1 numeric variable should be selected for correlation heatmap")
+    return("This section plots a graph of 3 variables. It uses a 'Scatter Plot' for visualization, with the third variable used as color or shape by your choice.")
   })
 
 
@@ -164,7 +164,7 @@ server <- function(input, output, session) {
   output$plot_4 <- renderPlot(plot_4())
 
   output$bio_text_4 <- renderText({
-    return("This section is designed to plot a Correlation Heatmap")
+    return("This section displays the 'Correlation Heatmap' for the numeric variables.")
   })
 
 }

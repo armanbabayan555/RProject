@@ -41,9 +41,9 @@ ui <- fluidPage(
   fluidRow(
     column(3,
            wellPanel(
-             selectInput("first_var_1", "Select Variable 1:",
+             selectInput("first_var_1", "Select Variable:",
                          choices = not_sel),
-             numericInput("bin_width_1", "Select bar length (Optional, leave -1 for default): ",
+             numericInput("bin_width_1", "Select bar length or bin width (Leave -1 for default): ",
                           min = 1, max = 100, value = -1),
              br(),
              actionButton("run_button_1", "Run", icon = icon("play"))
