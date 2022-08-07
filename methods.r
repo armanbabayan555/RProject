@@ -41,7 +41,16 @@ getTable <- function(file) {
     }
   )
 
-  return(as.data.table(data))
+  data1 <- as.data.frame(data)
+
+  for (i in 1:ncol(data1)) {
+    if (is.numeric(data1[, i])) {
+      colmn <- !data1[, i] %in% boxplot.stats(data1[, i])$out
+      data1<- data1[colmn, ]
+    }
+  }
+
+  return(as.data.table(data1))
 }
 
 draw_plot <- function(data_input, var_1, var_2, var_3, bin_width_1 = -1, fill_type_3 = "color") {
