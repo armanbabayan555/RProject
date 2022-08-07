@@ -49,7 +49,7 @@ server <- function(input, output, session) {
   output$plot_1 <- renderPlot(plot_1())
 
   output$bio_text_1 <- renderText({
-    return("This section is designed to plot a graph of 1 variable. It will plot a barplot, for which you can choose the bin width or simply leave it -1 to nos specify anything")
+    return("This section is designed to plot a graph of 1 variable. It will plot a barplot, for which you can choose the bin width or simply leave it -1 to not specify anything")
   })
 
 
@@ -74,7 +74,7 @@ server <- function(input, output, session) {
   output$plot_2 <- renderPlot(plot_2())
 
   output$bio_text_2 <- renderText({
-    return("This section is designed to plot a graph of 2 variables. It will plot a line graph in case of 2 numeric variables, a bar plot for 2 categorical variables, and a density plot for other cases")
+    return("This section is designed to plot a graph of 2 variables. It will plot a line graph in case of 2 numeric variables, a bar plot for 2 categorical variables, and a density plot in all other cases")
   })
 
 
