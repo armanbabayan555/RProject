@@ -3,6 +3,7 @@ library(shiny)
 library(ggplot2)
 library(data.table)
 library(dplyr)
+library(stringr)
 library(reshape2)
 
 options(shiny.maxRequestSize = 30 * 1024^2)
@@ -140,7 +141,7 @@ server <- function(input, output, session) {
       geom_tile(color = "white") +
       scale_fill_gradient2(low = "blue", high = "red", mid = "white",
                            midpoint = 0, limit = c(-1, 1), space = "Lab",
-                           name = input$correlation_type) +
+                           name = paste(str_to_title(input$correlation_type), "Correlation")) +
       theme_minimal() + # minimal theme
       theme(axis.text.x = element_text(angle = 45, vjust = 1,
                                        size = 12, hjust = 1)) +
