@@ -104,8 +104,6 @@ ui <- fluidPage(
                          choices = not_sel),
              selectInput("third_var_3", "Select Variable 3:",
                          choices = not_sel),
-             selectInput("graph_type_3", "Select Graph type:",
-                         choices = c("scatter", "heatmap")),
              selectInput("fill_type_3", "Select 3rd variable's usage:",
                          choices = c("color", "shape")),
              br(),
@@ -120,8 +118,22 @@ ui <- fluidPage(
     column(5,
            plotOutput("plot_3")
     )
-  )
+  ),
 
+  br(),
+  br(),
+
+
+  ###################################################################
+  ####################### Correlation Heatmap #######################
+  ###################################################################
+  fluidRow(
+    column(3),
+    column(6,
+           plotOutput("plot_4")
+    ),
+    column(3)
+  )
 )
 
 shinyApp(ui, server)
